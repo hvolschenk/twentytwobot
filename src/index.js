@@ -6,7 +6,7 @@ const client = new tmi.Client({
   options: { debug: true },
   identity: {
     username: configuration.twitchTV.username(),
-    password: `oauth:${configuration.twitchTV.authenticationToken()}`,
+    password: `oauth:${configuration.twitchTV.accessToken()}`,
   },
   channels: configuration.twitchTV.channels().split(','),
 });

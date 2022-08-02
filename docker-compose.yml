@@ -9,7 +9,7 @@ services:
     build: "./"
     command: ["npm", "start"]
     environment:
-      - TWITCHTV_AUTHENTICATION_TOKEN=${TWITCHTV_AUTHENTICATION_TOKEN}
+      - TWITCHTV_ACCESS_TOKEN=${TWITCHTV_ACCESS_TOKEN}
       - TWITCHTV_CHANNELS=${TWITCHTV_CHANNELS:-22atreyu22}
       - TWITCHTV_USERNAME=${TWITCHTV_USERNAME:-twentytwobot}
     networks:
