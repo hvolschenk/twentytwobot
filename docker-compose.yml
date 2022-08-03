@@ -6,7 +6,7 @@ networks:
 
 services:
   app:
-    build: "./"
+    build: "./server"
     command: ["npm", "start"]
     environment:
       - TWITCHTV_ACCESS_TOKEN=${TWITCHTV_ACCESS_TOKEN}
@@ -15,5 +15,5 @@ services:
     networks:
       - twentytwobot-network
     volumes:
-      - ./:/home/node/application/app:delegated
+      - ./server:/home/node/application/app:delegated
       - /home/node/application/app/node_modules/
