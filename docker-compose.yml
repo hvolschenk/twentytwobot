@@ -5,15 +5,34 @@ networks:
     driver: bridge
 
 services:
-  app:
-    build: "./"
-    command: ["npm", "start"]
+  server:
+    build: "./server"
+    command: sh -c './wait-for database:3306 --timeout=240 -- npm start'
+    depends_on:
+      - database
     environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-twentytwobot}
+      - MYSQL_HOST=${MYSQL_HOST:-database}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER:-twentytwobot}
       - TWITCHTV_ACCESS_TOKEN=${TWITCHTV_ACCESS_TOKEN}
       - TWITCHTV_CHANNELS=${TWITCHTV_CHANNELS:-22atreyu22}
       - TWITCHTV_USERNAME=${TWITCHTV_USERNAME:-twentytwobot}
     networks:
       - twentytwobot-network
     volumes:
-      - ./:/home/node/application/app:delegated
+      - ./server:/home/node/application/app:delegated
       - /home/node/application/app/node_modules/
+
+  database:
+    build: "./database"
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-twentytwobot}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER:-twentytwobot}
+    networks:
+      - twentytwobot-network
+    volumes:
+      - ./database/data:/var/lib/mysql:cached
+      - ./database/initialization:/docker-entrypoint-initdb.d:delegated
