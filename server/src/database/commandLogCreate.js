@@ -1,5 +1,8 @@
-const commandLogCreate = (mysqlConnection, commandName, username) => new Promise((resolve, reject) => {
-  mysqlConnection.execute(
+const getDatabaseConnection = require('../shared/getDatabaseConnection');
+
+const commandLogCreate = ({ commandName, username }) => new Promise((resolve, reject) => {
+  const databaseConnection = getDatabaseConnection();
+  databaseConnection.execute(
     'CALL command_log_create(?, ?)',
     [commandName, username || ''],
     (error) => {
