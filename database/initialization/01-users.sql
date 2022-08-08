@@ -13,9 +13,9 @@ CREATE TABLE `user`(
 -- #############################################################################
 DELIMITER //
 CREATE PROCEDURE `user_create`(
-  IN username VARCHAR(25)
+  IN in_username VARCHAR(25),
 )
 BEGIN
-	INSERT IGNORE INTO `user`(`username`) VALUES(username);
+	INSERT IGNORE INTO `user`(`username`) VALUES(in_username);
 END //
 DELIMITER ;

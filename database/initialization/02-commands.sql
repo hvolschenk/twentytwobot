@@ -28,14 +28,14 @@ CREATE TABLE `command_log`(
 -- #############################################################################
 DELIMITER //
 CREATE PROCEDURE `command_log_create`(
-  IN commandName VARCHAR(64),
-  IN username VARCHAR(25)
+  IN in_name VARCHAR(64),
+  IN in_username VARCHAR(25)
 )
 BEGIN
-  INSERT INTO `command_log`(`commandID`, `user`)
+  INSERT INTO `command_log`(`commandID`, `userID`)
   VALUES(
-    (SELECT `id` FROM `command` WHERE `name` = commandName),
-    (SELECT `id` FROM `user` WHERE `username` = username)
+    (SELECT `id` FROM `command` WHERE `name` = in_name),
+    (SELECT `id` FROM `user` WHERE `username` = in_username)
   );
 END //
 DELIMITER ;
