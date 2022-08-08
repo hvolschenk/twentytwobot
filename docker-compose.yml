@@ -17,6 +17,7 @@ services:
       - MYSQL_USER=${MYSQL_USER:-twentytwobot}
       - TWITCHTV_ACCESS_TOKEN=${TWITCHTV_ACCESS_TOKEN}
       - TWITCHTV_CHANNELS=${TWITCHTV_CHANNELS:-22atreyu22}
+      - TWITCHTV_CLIENT_ID=${TWITCHTV_CLIENT_ID}
       - TWITCHTV_USERNAME=${TWITCHTV_USERNAME:-twentytwobot}
     networks:
       - twentytwobot-network

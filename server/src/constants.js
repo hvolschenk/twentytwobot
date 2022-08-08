@@ -45,6 +45,7 @@ const knownStreamers = [
   'when_dyy',
   'someoldfart',
   'x3catsincoat',
+  'guntech1',
 ];
 
 module.exports = {

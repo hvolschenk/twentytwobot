@@ -1,48 +1,30 @@
-const mysql = require('mysql2');
 const tmi = require('tmi.js');
 
-const configuration = require('./configuration');
-const { botUsers, knownStreamers } = require('./constants');
+const join = require('./commands/join');
+const shoutout = require('./commands/shoutout');
 const commandLogCreate = require('./database/commandLogCreate');
-const userCreate = require('./database/userCreate');
+const getDatabaseConnection = require('./shared/getDatabaseConnection');
+const getTwitchClient = require('./shared/getTwitchClient');
 
-const mysqlConnection = mysql.createConnection({
-  database: configuration.mySQL.database(),
-  host: configuration.mySQL.host(),
-  password: configuration.mySQL.password(),
-  user: configuration.mySQL.username(),
-});
+getDatabaseConnection();
 
-const client = new tmi.Client({
-  options: { debug: true },
-  identity: {
-    username: configuration.twitchTV.username(),
-    password: `oauth:${configuration.twitchTV.accessToken()}`,
-  },
-  channels: configuration.twitchTV.channels().split(','),
-});
-
-client.connect();
+const twitchClient = getTwitchClient();
+twitchClient.connect();
 
 // When a user joins the channel
-client.on('join', async (channel, username, self) => {
-  if (self || botUsers.includes(username)) {
-    return;
-  }
-  await userCreate(mysqlConnection, username);
-  if (knownStreamers.includes(username)) {
-    client.say(channel, `!so @${username}`);
-  }
-});
+twitchClient.on('join', join);
 
 // Any standard message
-client.on('chat', async (channel, tags, message, self) => {
+twitchClient.on('chat', async (channel, tags, message, self) => {
   if (self || !message.startsWith('!')) {
     return;
   }
   const command = message.split(' ')[0].toLowerCase();
-  await commandLogCreate(mysqlConnection, command);
+  await commandLogCreate({ commandName: command, username: tags.username });
   if(command === '!hello') {
-    client.say(channel, `@${tags.username}, heya!`);
+    twitchClient.say(channel, `@${tags.username}, heya!`);
+  }
+  if (command === '!so' || command === '!shoutout') {
+    shoutout(channel, tags.username, message);
   }
 });
