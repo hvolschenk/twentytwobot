@@ -1,7 +1,9 @@
-const userGetByUsername = require('../database/userGetByUsername');
-const getTwitchClient = require('../shared/getTwitchClient');
+import { Events } from 'tmi.js';
 
-const shoutout = async (channel, tags, message, self) => {
+import userGetByUsername from '../database/userGetByUsername';
+import getTwitchClient from '../shared/getTwitchClient';
+
+const shoutout: Events['chat'] = async (channel, tags, message, self) => {
   const shoutedUser = message.split(' ')[1].replace('@', '');
   const twitchClient = getTwitchClient();
   const user = await userGetByUsername({ username: shoutedUser });
@@ -12,4 +14,4 @@ const shoutout = async (channel, tags, message, self) => {
   }
 };
 
-module.exports = shoutout;
+export default shoutout;

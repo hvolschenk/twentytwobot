@@ -1,4 +1,4 @@
-const botUsers = [
+export const botUsers: string[] = [
   'alienconglomeration',
   'commanderroot',
   'rogueg1rl',
@@ -9,7 +9,7 @@ const botUsers = [
   'lurxx',
 ];
 
-const knownStreamers = [
+export const knownStreamers: string[] = [
   '22atreyu22',
   'jamesgeheimergeheimagent',
   'acidic_virus_',
@@ -47,8 +47,3 @@ const knownStreamers = [
   'x3catsincoat',
   'guntech1',
 ];
-
-module.exports = {
-  botUsers,
-  knownStreamers,
-};

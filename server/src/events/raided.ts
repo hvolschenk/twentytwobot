@@ -1,7 +1,9 @@
-const userGetByUsername = require('../database/userGetByUsername')
-const getTwitchClient = require('../shared/getTwitchClient');
+import { Events } from 'tmi.js';
 
-const raided = async (channel, username, viewers) => {
+import userGetByUsername from '../database/userGetByUsername';
+import getTwitchClient from '../shared/getTwitchClient';
+
+const raided: Events['raided'] = async (channel, username, viewers) => {
   const twitchClient = getTwitchClient();
   const raider = await userGetByUsername({ username });
   if (raider) {
@@ -12,4 +14,4 @@ const raided = async (channel, username, viewers) => {
   }
 };
 
-module.exports = raided;
+export default raided;

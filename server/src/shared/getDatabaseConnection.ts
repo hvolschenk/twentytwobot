@@ -1,8 +1,8 @@
-const mysql = require('mysql2');
+import mysql from 'mysql2';
 
-const configuration = require('../configuration');
+import configuration from '../configuration';
 
-let databaseConnection;
+let databaseConnection: mysql.Connection;
 
 const getDatabaseConnection = () => {
   if (!databaseConnection) {
@@ -16,4 +16,4 @@ const getDatabaseConnection = () => {
   return databaseConnection;
 };
 
-module.exports = getDatabaseConnection;
+export default getDatabaseConnection;
