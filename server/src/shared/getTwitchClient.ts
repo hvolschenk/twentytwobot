@@ -1,8 +1,8 @@
-const tmi = require('tmi.js');
+import tmi from 'tmi.js';
 
-const configuration = require('../configuration');
+import configuration from '../configuration';
 
-let twitchClient;
+let twitchClient: tmi.Client;
 
 const getTwitchClient = () => {
   if (!twitchClient) {
@@ -18,4 +18,4 @@ const getTwitchClient = () => {
   return twitchClient;
 };
 
-module.exports = getTwitchClient;
+export default getTwitchClient;

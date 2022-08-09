@@ -6,7 +6,7 @@ CREATE TABLE `user`(
   `dateCreated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `username` VARCHAR(25) NOT NULL,
   `displayName` VARCHAR(25) NOT NULL,
-  `twitchID` INT UNSIGNED NOT NULL,
+  `twitchID` VARCHAR(32) NOT NULL,
   `lastGamePlayed` VARCHAR(255) NOT NULL,
   UNIQUE INDEX(`username`)
 ) ENGINE = InnoDB;
@@ -18,7 +18,7 @@ DELIMITER //
 CREATE PROCEDURE `user_create`(
   IN in_username VARCHAR(25),
   IN in_displayName VARCHAR(25),
-  IN in_twitchID INT UNSIGNED,
+  IN in_twitchID VARCHAR(32),
   IN in_lastGamePlayed VARCHAR(255)
 )
 BEGIN
@@ -34,7 +34,7 @@ DELIMITER //
 CREATE PROCEDURE `user_update`(
   IN in_id INT UNSIGNED,
   IN in_displayName VARCHAR(25),
-  IN in_twitchID INT UNSIGNED,
+  IN in_twitchID VARCHAR(32),
   IN in_lastGamePlayed VARCHAR(255)
 )
 BEGIN

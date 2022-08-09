@@ -1,12 +1,14 @@
-const getChannelInformation = require('../api/getChannelInformation');
-const getUserInformation = require('../api/getUserInformation');
-const { knownStreamers } = require('../constants');
-const userCreate = require('../database/userCreate');
-const userGetByUsername = require('../database/userGetByUsername');
-const userUpdate = require('../database/userUpdate');
-const shoutout = require('./shoutout');
+import { Events } from 'tmi.js';
 
-const join = async (channel, username) => {
+import getChannelInformation from '../api/getChannelInformation';
+import getUserInformation from '../api/getUserInformation';
+import shoutout from '../commands/shoutout';
+import { knownStreamers } from '../constants';
+import userCreate from '../database/userCreate';
+import userGetByUsername from '../database/userGetByUsername';
+import userUpdate from '../database/userUpdate';
+
+const join: Events['join'] = async (channel, username) => {
   const storedUser = await userGetByUsername({ username });
   if (!storedUser) {
     const userInformation = await getUserInformation(username);
@@ -32,4 +34,4 @@ const join = async (channel, username) => {
   }
 };
 
-module.exports = join;
+export default join;

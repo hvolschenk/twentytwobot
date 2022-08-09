@@ -1,6 +1,6 @@
-const axios = require('axios');
+import axios from 'axios';
 
-const configuration = require('../configuration');
+import configuration from '../configuration';
 
 const twitch = axios.create({
   baseURL: 'https://api.twitch.tv/helix',
@@ -10,4 +10,4 @@ const twitch = axios.create({
   },
 });
 
-module.exports = twitch;
+export default twitch;

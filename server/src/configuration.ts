@@ -1,4 +1,19 @@
-const configuration = {
+interface Configuration {
+  mySQL: {
+    database(): string;
+    host(): string;
+    password(): string;
+    username(): string;
+  };
+  twitchTV: {
+    accessToken(): string;
+    channels(): string;
+    clientID(): string;
+    username(): string;
+  };
+}
+
+const configuration: Configuration = {
   mySQL: {
     database: () => process.env.MYSQL_DATABASE,
     host: () => process.env.MYSQL_HOST,
@@ -13,4 +28,4 @@ const configuration = {
   },
 };
 
-module.exports = configuration;
+export default configuration;

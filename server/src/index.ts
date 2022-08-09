@@ -1,11 +1,11 @@
-const tmi = require('tmi.js');
+import tmi from 'tmi.js';
 
-const join = require('./commands/join');
-const raided = require('./commands/raided');
-const shoutout = require('./commands/shoutout');
-const commandLogCreate = require('./database/commandLogCreate');
-const getDatabaseConnection = require('./shared/getDatabaseConnection');
-const getTwitchClient = require('./shared/getTwitchClient');
+import shoutout from './commands/shoutout';
+import commandLogCreate from'./database/commandLogCreate';
+import join from './events/join';
+import raided from './events/raided';
+import getDatabaseConnection from './shared/getDatabaseConnection';
+import getTwitchClient from './shared/getTwitchClient';
 
 getDatabaseConnection();
 
@@ -20,7 +20,7 @@ twitchClient.on('raided', raided);
 
 // Any standard message
 twitchClient.on('chat', async (channel, tags, message, self) => {
-  if (self || !message.startsWith('!')) {
+  if (self || !message.startsWith('!') || !tags.username) {
     return;
   }
   const command = message.split(' ')[0].toLowerCase();
@@ -29,6 +29,6 @@ twitchClient.on('chat', async (channel, tags, message, self) => {
     twitchClient.say(channel, `@${tags.username}, heya!`);
   }
   if (command === '!so' || command === '!shoutout') {
-    shoutout(channel, tags.username, message);
+    shoutout(channel, tags, message, self);
   }
 });
