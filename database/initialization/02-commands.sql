@@ -9,7 +9,12 @@ CREATE TABLE `command`(
 ) ENGINE = InnoDB;
 
 -- Insert the initial list of commands
-INSERT INTO `command`(`name`, `command`) VALUES('!hello', '{1}, hiya!');
+INSERT INTO `command`(`name`, `command`)
+VALUES
+  ('!bot', 'Hey. I am @twentytwobot, built by @22atreyu22 for his channel. type !commands or !help to see what I can do.'),
+  ('!hello', '{1}, hiya!'),
+  ('!shoutout', null),
+  ('!so', null);
 
 -- #############################################################################
 -- A log of commands having been used
