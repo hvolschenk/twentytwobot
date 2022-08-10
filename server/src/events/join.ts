@@ -30,7 +30,7 @@ const join: Events['join'] = async (channel, username) => {
   }
 
   if (knownStreamers.includes(username)) {
-    shoutout(channel, { username }, `!so @${username}`, true);
+    shoutout(channel, { username: '@twentytwobot' }, `!so @${username}`, true);
   }
 };
 
