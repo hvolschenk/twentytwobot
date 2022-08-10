@@ -10,7 +10,10 @@ interface UpdateUserDetailsOptions {
   username: User['username'];
 }
 
-const updateUserDetails = async ({ forceUpdate = false, username }: UpdateUserDetailsOptions) => {
+const updateUserDetails = async ({
+  forceUpdate = false,
+  username,
+}: UpdateUserDetailsOptions) => {
   const storedUser = await userGetByUsername({ username });
   if (!storedUser) {
     const userInformation = await getUserInformation(username);
@@ -21,16 +24,17 @@ const updateUserDetails = async ({ forceUpdate = false, username }: UpdateUserDe
       twitchID: channelInformation.broadcaster_id,
       username: channelInformation.broadcaster_login,
     });
-  } else {
-    if (forceUpdate || Date.now() - storedUser.dateUpdated > 1 * 24 * 60 * 60 * 1000) {
-      const channelInformation = await getChannelInformation(storedUser.twitchID);
-      await userUpdate({
-        displayName: channelInformation.broadcaster_name,
-        lastGamePlayed: channelInformation.game_name,
-        twitchID: channelInformation.broadcaster_id,
-        id: storedUser.id,
-      });
-    }
+  } else if (
+    forceUpdate ||
+    Date.now() - storedUser.dateUpdated > 1 * 24 * 60 * 60 * 1000
+  ) {
+    const channelInformation = await getChannelInformation(storedUser.twitchID);
+    await userUpdate({
+      displayName: channelInformation.broadcaster_name,
+      lastGamePlayed: channelInformation.game_name,
+      twitchID: channelInformation.broadcaster_id,
+      id: storedUser.id,
+    });
   }
 };
 
