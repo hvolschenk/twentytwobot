@@ -18,10 +18,13 @@ const chat: Events['chat'] = async (channel, tags, message, self) => {
   await commandLogCreate({ commandName: command, username: tags.username });
 
   if (command === '!bot') {
-    twitchClient.say(channel, 'Hey. I am @twentytwobot, built by @22atreyu22 for his channel. type !commands or !help to see what I can do.');
+    twitchClient.say(
+      channel,
+      'Hey. I am @twentytwobot, built by @22atreyu22 for his channel. type !commands or !help to see what I can do.'
+    );
   }
-  
-  if(command === '!hello') {
+
+  if (command === '!hello') {
     twitchClient.say(channel, `@${tags.username}, heya!`);
   }
 

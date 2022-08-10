@@ -1,7 +1,7 @@
-import mysql from "mysql2";
+import mysql from 'mysql2';
 
-import getDatabaseConnection from "../shared/getDatabaseConnection";
-import { User } from "../types/User";
+import getDatabaseConnection from '../shared/getDatabaseConnection';
+import { User } from '../types/User';
 
 type UserGetByUsernameOptions = Pick<User, 'username'>;
 
@@ -9,7 +9,7 @@ const userGetByUsername = ({ username }: UserGetByUsernameOptions) =>
   new Promise<User | null>((resolve, reject) => {
     const databaseConnection = getDatabaseConnection();
     databaseConnection.execute<mysql.RowDataPacket[][]>(
-      "CALL user_get_by_username(?)",
+      'CALL user_get_by_username(?)',
       [username],
       (error, response) => {
         if (error) {
