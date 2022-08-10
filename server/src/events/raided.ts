@@ -9,7 +9,7 @@ const raided: Events['raided'] = async (channel, username, viewers) => {
   if (raider) {
     twitchClient.say(
       channel,
-      `Welcome @${raider.displayName} plus ${viewers} <3 <3 <3 Thank you so much for the raid! How was the '${raider.lastGamePlayed}' gameplay? How did the stream go?`,
+      `Welcome @${raider.displayName} plus ${viewers} <3 <3 <3 Thank you so much for the raid! How did the '${raider.lastGamePlayed}' stream go?`,
     );
   }
 };
