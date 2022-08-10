@@ -4,6 +4,7 @@
 CREATE TABLE `user`(
   `id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `dateCreated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dateUpdated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `username` VARCHAR(25) NOT NULL,
   `displayName` VARCHAR(25) NOT NULL,
   `twitchID` VARCHAR(32) NOT NULL,
@@ -58,7 +59,13 @@ CREATE PROCEDURE `user_get_by_username`(
 )
 BEGIN
   SELECT
-    `id`, `dateCreated`, `username`, `displayName`, `twitchID`, `lastGamePlayed`
+    `id`,
+    UNIX_TIMESTAMP(`dateCreated`) * 1000 as `dateCreated`,
+    UNIX_TIMESTAMP(`dateUpdated`) * 1000 as `dateUpdated`,
+    `username`,
+    `displayName`,
+    `twitchID`,
+    `lastGamePlayed`
   FROM
     `user`
   WHERE

@@ -2,6 +2,7 @@ import { Events } from 'tmi.js';
 
 import shoutout from '../commands/shoutout';
 import commandLogCreate from '../database/commandLogCreate';
+import updateUserDetails from '../helpers/updateUserDetails';
 import getTwitchClient from '../shared/getTwitchClient';
 
 const chat: Events['chat'] = async (channel, tags, message, self) => {
@@ -10,6 +11,8 @@ const chat: Events['chat'] = async (channel, tags, message, self) => {
   if (self || !message.startsWith('!') || !tags.username) {
     return;
   }
+
+  await updateUserDetails({ username: tags.username });
 
   const command = message.split(' ')[0].toLowerCase();
   await commandLogCreate({ commandName: command, username: tags.username });

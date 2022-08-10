@@ -1,14 +1,3 @@
-export const botUsers: string[] = [
-  'alienconglomeration',
-  'commanderroot',
-  'rogueg1rl',
-  'streamelements',
-  '0ax2',
-  'aservicestop',
-  'iizzybeth',
-  'lurxx',
-];
-
 export const knownStreamers: string[] = [
   '22atreyu22',
   'jamesgeheimergeheimagent',
