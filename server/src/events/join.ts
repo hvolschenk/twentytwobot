@@ -1,14 +1,15 @@
 import { Events } from 'tmi.js';
 
-import shoutout from '../commands/shoutout';
 import { knownStreamers } from '../constants';
 import updateUserDetails from '../helpers/updateUserDetails';
+import getTwitchClient from '../shared/getTwitchClient';
 
 const join: Events['join'] = async (channel, username) => {
+  const twitchClient = getTwitchClient();
   await updateUserDetails({ username });
 
   if (knownStreamers.includes(username)) {
-    shoutout(channel, { username: '@twentytwobot' }, `!so @${username}`, true);
+    twitchClient.say(channel, `!shoutout @${username}`);
   }
 };
 
