@@ -1,6 +1,6 @@
-import commandGetInvocationsCount from 'database/commandGetInvocationsCount';
-import userGetDisplayNameByUsername from 'database/userGetDisplayNameByUsername';
-import userGetLastGamePlayedByUsername from 'database/userGetLastGamePlayedByUsername';
+import commandGetInvocationsCount from '../../database/commandGetInvocationsCount';
+import userGetDisplayNameByUsername from '../../database/userGetDisplayNameByUsername';
+import userGetLastGamePlayedByUsername from '../../database/userGetLastGamePlayedByUsername';
 
 interface Replacer {
   identifier: string;

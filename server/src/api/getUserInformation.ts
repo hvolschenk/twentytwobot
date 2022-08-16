@@ -1,5 +1,5 @@
-import twitch from 'shared/twitch';
-import { User } from 'types/User';
+import twitch from '../shared/twitch';
+import { User } from '../types/User';
 
 // https://dev.twitch.tv/docs/api/reference#get-users
 interface HelixUser {

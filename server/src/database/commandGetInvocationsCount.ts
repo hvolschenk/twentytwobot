@@ -1,7 +1,7 @@
 import { RowDataPacket } from 'mysql2';
 
-import getDatabaseConnection from 'shared/getDatabaseConnection';
-import { CommandKeyword } from 'types/CommandKeyword';
+import getDatabaseConnection from '../shared/getDatabaseConnection';
+import { CommandKeyword } from '../types/CommandKeyword';
 
 interface CommandGetInvocationsCountOptions {
   keyword: CommandKeyword['keyword'];

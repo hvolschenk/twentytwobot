@@ -1,8 +1,8 @@
 import { Events } from 'tmi.js';
 
-import userGetByUsername from 'database/userGetByUsername';
-import updateUserDetails from 'helpers/updateUserDetails';
-import getTwitchClient from 'shared/getTwitchClient';
+import userGetByUsername from '../database/userGetByUsername';
+import updateUserDetails from '../helpers/updateUserDetails';
+import getTwitchClient from '../shared/getTwitchClient';
 
 const raided: Events['raided'] = async (channel, username, viewers) => {
   const twitchClient = getTwitchClient();
