@@ -1,8 +1,8 @@
 import mysql from 'mysql2';
 
-import getDatabaseConnection from '../shared/getDatabaseConnection';
-import { Command } from '../types/Command';
-import { User } from '../types/User';
+import getDatabaseConnection from 'shared/getDatabaseConnection';
+import { Command } from 'types/Command';
+import { User } from 'types/User';
 
 interface CommandLogCreateOptions {
   commandID: Command['id'];

@@ -1,9 +1,9 @@
 import { Events } from 'tmi.js';
 
-import commandKeywordGetAllByCommandID from '../database/commandKeywordGetAllByCommandID';
-import commandKeywordGetAllPrimary from '../database/commandKeywordGetAllPrimary';
-import commandGetByKeyword from '../database/commandGetByKeyword';
-import getTwitchClient from '../shared/getTwitchClient';
+import commandGetByKeyword from 'database/commandGetByKeyword';
+import commandKeywordGetAllByCommandID from 'database/commandKeywordGetAllByCommandID';
+import commandKeywordGetAllPrimary from 'database/commandKeywordGetAllPrimary';
+import getTwitchClient from 'shared/getTwitchClient';
 
 const commands: Events['chat'] = async (channel, tags, message) => {
   const twitchClient = getTwitchClient();

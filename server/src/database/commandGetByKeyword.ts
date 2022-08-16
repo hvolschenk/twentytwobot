@@ -1,7 +1,6 @@
-import { CommandKeyword } from 'src/types/CommandKeyword';
-
-import getDatabaseConnection from '../shared/getDatabaseConnection';
-import { Command } from '../types/Command';
+import getDatabaseConnection from 'shared/getDatabaseConnection';
+import { Command } from 'types/Command';
+import { CommandKeyword } from 'types/CommandKeyword';
 
 type CommandGetByKeywordOptions = Pick<CommandKeyword, 'keyword'>;
 

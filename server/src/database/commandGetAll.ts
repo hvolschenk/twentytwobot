@@ -1,5 +1,5 @@
-import getDatabaseConnection from '../shared/getDatabaseConnection';
-import { CommandWithKeyword } from '../types/CommandWithKeyword';
+import getDatabaseConnection from 'shared/getDatabaseConnection';
+import { CommandWithKeyword } from 'types/CommandWithKeyword';
 
 const commandGetAll = () =>
   new Promise<CommandWithKeyword[]>((resolve, reject) => {

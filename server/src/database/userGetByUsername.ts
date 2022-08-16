@@ -1,5 +1,5 @@
-import getDatabaseConnection from '../shared/getDatabaseConnection';
-import { User } from '../types/User';
+import getDatabaseConnection from 'shared/getDatabaseConnection';
+import { User } from 'types/User';
 
 type UserGetByUsernameOptions = Pick<User, 'username'>;
 
