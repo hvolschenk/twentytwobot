@@ -1,9 +1,8 @@
 import { Events } from 'tmi.js';
 
-import updateUserDetails from 'helpers/updateUserDetails';
-import getTwitchClient from 'shared/getTwitchClient';
-
 import { knownStreamers } from '../constants';
+import updateUserDetails from '../helpers/updateUserDetails';
+import getTwitchClient from '../shared/getTwitchClient';
 
 const join: Events['join'] = async (channel, username) => {
   const twitchClient = getTwitchClient();

@@ -1,9 +1,9 @@
-import getChannelInformation from 'api/getChannelInformation';
-import getUserInformation from 'api/getUserInformation';
-import userCreate from 'database/userCreate';
-import userGetByUsername from 'database/userGetByUsername';
-import userUpdate from 'database/userUpdate';
-import { User } from 'types/User';
+import getChannelInformation from '../api/getChannelInformation';
+import getUserInformation from '../api/getUserInformation';
+import userCreate from '../database/userCreate';
+import userGetByUsername from '../database/userGetByUsername';
+import userUpdate from '../database/userUpdate';
+import { User } from '../types/User';
 
 interface UpdateUserDetailsOptions {
   forceUpdate?: boolean;

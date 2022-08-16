@@ -1,6 +1,6 @@
-import getDatabaseConnection from 'shared/getDatabaseConnection';
-import { Command } from 'types/Command';
-import { CommandKeyword } from 'types/CommandKeyword';
+import getDatabaseConnection from '../shared/getDatabaseConnection';
+import { Command } from '../types/Command';
+import { CommandKeyword } from '../types/CommandKeyword';
 
 type CommandKeywordGetAllByCommandIDOptions = Pick<Command, 'id'>;
 
