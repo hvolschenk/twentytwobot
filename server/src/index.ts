@@ -1,8 +1,8 @@
-import chat from './events/chat';
-import join from './events/join';
-import raided from './events/raided';
-import getDatabaseConnection from './shared/getDatabaseConnection';
-import getTwitchClient from './shared/getTwitchClient';
+import chat from 'events/chat';
+import join from 'events/join';
+import raided from 'events/raided';
+import getDatabaseConnection from 'shared/getDatabaseConnection';
+import getTwitchClient from 'shared/getTwitchClient';
 
 getDatabaseConnection();
 

@@ -1,7 +1,7 @@
 import mysql from 'mysql2';
 
-import getDatabaseConnection from '../shared/getDatabaseConnection';
-import { User } from '../types/User';
+import getDatabaseConnection from 'shared/getDatabaseConnection';
+import { User } from 'types/User';
 
 type UserCreateOptions = Pick<
   User,

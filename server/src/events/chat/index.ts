@@ -1,10 +1,11 @@
 import { Events } from 'tmi.js';
 
-import customCommands from '../../commands';
-import commandGetAll from '../../database/commandGetAll';
-import commandLogCreate from '../../database/commandLogCreate';
-import updateUserDetails from '../../helpers/updateUserDetails';
-import getTwitchClient from '../../shared/getTwitchClient';
+import customCommands from 'commands';
+import commandGetAll from 'database/commandGetAll';
+import commandLogCreate from 'database/commandLogCreate';
+import updateUserDetails from 'helpers/updateUserDetails';
+import getTwitchClient from 'shared/getTwitchClient';
+
 import commandParser from './commandParser';
 
 const chat: Events['chat'] = async (channel, tags, message, self) => {
