@@ -36,4 +36,3 @@ services:
       - twentytwobot-network
     volumes:
       - ./database/data:/var/lib/mysql:cached
-      - ./database/initialization:/docker-entrypoint-initdb.d:delegated
