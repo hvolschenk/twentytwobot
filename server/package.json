@@ -4,6 +4,7 @@
   "description": "A TwitchTV bot for the 22atreyu22 channel",
   "main": "src/index.js",
   "scripts": {
+    "migrate:create": "db-migrate create",
     "migrate:down": "db-migrate down",
     "migrate:up": "db-migrate up",
     "start": "nodemon",
