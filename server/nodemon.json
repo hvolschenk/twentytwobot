@@ -1,6 +1,6 @@
 {
-  "exec": "npm run start:static",
-  "ext": "ts",
+  "exec": "npm run migrate:up && npm run start:static",
+  "ext": "sql,ts",
   "ignore": [".git", "node_modules"],
-  "watch": ["./src"]
+  "watch": ["./migrations", "./src"]
 }
