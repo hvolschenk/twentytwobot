@@ -15,8 +15,10 @@ const userGetLastGamePlayedDisplayNameByUsername = ({
   new Promise<Pick<User, 'lastGamePlayed'> | null>((resolve, reject) => {
     const databaseConnection = getDatabaseConnection();
     databaseConnection.execute<UserLastGamePlayed[][]>(
-      'CALL user_get_last_game_played_by_username(?)',
-      [username],
+      {
+        sql: 'CALL user_get_last_game_played_by_username(?)',
+        values: [username],
+      },
       (error, response) => {
         if (error) {
           reject(

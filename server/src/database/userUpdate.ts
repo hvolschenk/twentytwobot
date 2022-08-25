@@ -17,8 +17,10 @@ const userUpdate = ({
   new Promise<void>((resolve, reject) => {
     const databaseConnection = getDatabaseConnection();
     databaseConnection.execute<mysql.ResultSetHeader>(
-      'CALL user_update(?, ?, ?, ?)',
-      [id, displayName, twitchID, lastGamePlayed],
+      {
+        sql: 'CALL user_update(?, ?, ?, ?)',
+        values: [id, displayName, twitchID, lastGamePlayed],
+      },
       (error) => {
         if (error) {
           reject(new Error('Failed to update the user'));

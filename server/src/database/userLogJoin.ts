@@ -9,8 +9,7 @@ const userLogJoin = ({ username }: UserLogJoinOptions) =>
   new Promise<number>((resolve, reject) => {
     const databaseConnection = getDatabaseConnection();
     databaseConnection.execute<mysql.ResultSetHeader>(
-      'CALL user_log_join(?)',
-      [username],
+      { sql: 'CALL user_log_join(?)', values: [username] },
       (error, result) => {
         if (error) {
           reject(new Error(`Failed to add a JOIN log entry: ${error.message}`));

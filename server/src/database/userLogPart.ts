@@ -9,8 +9,7 @@ const userLogPart = ({ username }: UserLogPartOptions) =>
   new Promise<number>((resolve, reject) => {
     const databaseConnection = getDatabaseConnection();
     databaseConnection.execute<mysql.ResultSetHeader>(
-      'CALL user_log_part(?)',
-      [username],
+      { sql: 'CALL user_log_part(?)', values: [username] },
       (error, result) => {
         if (error) {
           reject(new Error(`Failed to add a PART log entry: ${error.message}`));

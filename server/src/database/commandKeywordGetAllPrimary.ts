@@ -11,8 +11,7 @@ const commandKeywordGetAllPrimary = () =>
   new Promise<string[]>((resolve, reject) => {
     const databaseConnection = getDatabaseConnection();
     databaseConnection.execute<Keyword[][]>(
-      'CALL command_keyword_get_all_primary()',
-      [],
+      { sql: 'CALL command_keyword_get_all_primary()', values: [] },
       (error, response) => {
         if (error) {
           reject(
