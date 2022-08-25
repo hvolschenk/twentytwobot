@@ -26,6 +26,12 @@ To run the application you need [Docker][] and [docker-compose][]:
 $ docker-compose up
 ```
 
+For _PRODUCTION_:
+
+```sh
+$ caffeinate -i -d docker-compose up
+```
+
 ---
 
 [Docker]: https://www.docker.com/
