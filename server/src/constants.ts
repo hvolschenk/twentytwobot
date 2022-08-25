@@ -36,4 +36,5 @@ export const knownStreamers: string[] = [
   'someoldfart',
   'x3catsincoat',
   'guntech1',
+  'sweetreverie',
 ];
