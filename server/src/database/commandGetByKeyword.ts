@@ -9,8 +9,7 @@ const commandGetByKeyword = ({ keyword }: CommandGetByKeywordOptions) =>
   new Promise<Command | null>((resolve, reject) => {
     const databaseConnection = getDatabaseConnection();
     databaseConnection.execute<Command[][]>(
-      'CALL command_get_by_keyword(?)',
-      [keyword],
+      { sql: 'CALL command_get_by_keyword(?)', values: [keyword] },
       (error, response) => {
         if (error) {
           reject(

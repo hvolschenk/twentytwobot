@@ -17,8 +17,10 @@ const userCreate = ({
   new Promise<number>((resolve, reject) => {
     const databaseConnection = getDatabaseConnection();
     databaseConnection.execute<mysql.ResultSetHeader>(
-      'CALL user_create(?, ?, ?, ?)',
-      [username, displayName, twitchID, lastGamePlayed],
+      {
+        sql: 'CALL user_create(?, ?, ?, ?)',
+        values: [username, displayName, twitchID, lastGamePlayed],
+      },
       (error, result) => {
         if (error) {
           reject(new Error(`Failed to create the new user: ${error.message}`));

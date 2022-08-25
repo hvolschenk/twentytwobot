@@ -5,8 +5,7 @@ const commandGetAll = () =>
   new Promise<CommandWithKeyword[]>((resolve, reject) => {
     const databaseConnection = getDatabaseConnection();
     databaseConnection.execute<CommandWithKeyword[][]>(
-      'CALL command_get_all()',
-      [],
+      { sql: 'CALL command_get_all()', values: [] },
       (error, response) => {
         if (error) {
           reject(new Error(`Failed to get all commands: ${error.message}`));

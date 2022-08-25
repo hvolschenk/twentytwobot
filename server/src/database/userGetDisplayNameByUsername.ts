@@ -15,8 +15,7 @@ const userGetDisplayNameByUsername = ({
   new Promise<Pick<User, 'displayName'> | null>((resolve, reject) => {
     const databaseConnection = getDatabaseConnection();
     databaseConnection.execute<UserDisplayName[][]>(
-      'CALL user_get_display_name_by_username(?)',
-      [username],
+      { sql: 'CALL user_get_display_name_by_username(?)', values: [username] },
       (error, response) => {
         if (error) {
           reject(

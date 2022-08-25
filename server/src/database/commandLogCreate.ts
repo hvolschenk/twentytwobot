@@ -13,8 +13,7 @@ const commandLogCreate = ({ commandID, username }: CommandLogCreateOptions) =>
   new Promise<number>((resolve, reject) => {
     const databaseConnection = getDatabaseConnection();
     databaseConnection.execute<mysql.ResultSetHeader>(
-      'CALL command_log_create(?, ?)',
-      [commandID, username],
+      { sql: 'CALL command_log_create(?, ?)', values: [commandID, username] },
       (error, result) => {
         if (error) {
           reject(

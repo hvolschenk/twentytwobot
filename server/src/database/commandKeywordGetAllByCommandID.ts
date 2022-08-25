@@ -10,8 +10,7 @@ const commandKeywordGetAllByCommandID = ({
   new Promise<CommandKeyword[]>((resolve, reject) => {
     const databaseConnection = getDatabaseConnection();
     databaseConnection.execute<CommandKeyword[][]>(
-      'CALL command_keyword_get_all_by_command_id(?)',
-      [id],
+      { sql: 'CALL command_keyword_get_all_by_command_id(?)', values: [id] },
       (error, response) => {
         if (error) {
           reject(

@@ -17,8 +17,7 @@ const commandGetInvocationsCount = ({
   new Promise<number>((resolve, reject) => {
     const databaseConnection = getDatabaseConnection();
     databaseConnection.execute<InvocationsCountCount[][]>(
-      'CALL command_get_invocations_count(?)',
-      [keyword],
+      { sql: 'CALL command_get_invocations_count(?)', values: [keyword] },
       (error, response) => {
         if (error) {
           reject(
