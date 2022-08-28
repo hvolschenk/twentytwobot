@@ -5,6 +5,7 @@ import pointsgamble from './pointsgamble';
 import points from './points';
 import pointsgive from './pointsgive';
 import pointstop from './pointstop';
+import shoutout from './shoutout';
 
 const customCommands: Record<string, Events['chat']> = {
   commands,
@@ -17,6 +18,9 @@ const customCommands: Record<string, Events['chat']> = {
   pointsgive,
   pointstop,
   scores: pointstop,
+  shout: shoutout,
+  shoutout,
+  so: shoutout,
   top: pointstop,
   wager: pointsgamble,
 };
