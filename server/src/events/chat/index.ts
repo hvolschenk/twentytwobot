@@ -5,10 +5,15 @@ import commandGetAll from '../../database/commandGetAll';
 import commandLogCreate from '../../database/commandLogCreate';
 import updateUserDetails from '../../helpers/updateUserDetails';
 import getTwitchClient from '../../shared/getTwitchClient';
+import autoShoutout from './autoShoutout';
 import commandParser from './commandParser';
 
 const chat: Events['chat'] = async (channel, tags, message, self) => {
   const twitchClient = getTwitchClient();
+
+  if (tags.username) {
+    await autoShoutout({ channel, usernameTo: tags.username });
+  }
 
   if (!message.startsWith('!') || !tags.username) {
     return;
