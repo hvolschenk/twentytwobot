@@ -28,7 +28,7 @@ VALUES
   ),
   (
     'shoutout',
-    'Shoutout to @{userDisplayName {1}}. They have been supporting my stream, and you should definitely support theirs. They are great! They were last seen playing ''{userLastGamePlayed {1}}''. Click here and give them a follow: https://twitch.tv/{lowercase {replace @||{1}}}',
+    null,
     'To give a viewer in chat the praise that they deserve'
   ),
   (
