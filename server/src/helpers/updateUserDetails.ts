@@ -1,5 +1,6 @@
 import getChannelInformation from '../api/getChannelInformation';
 import getUserInformation from '../api/getUserInformation';
+import { knownBots } from '../constants';
 import userCreate from '../database/userCreate';
 import userGetByUsername from '../database/userGetByUsername';
 import userUpdate from '../database/userUpdate';
@@ -20,6 +21,7 @@ const updateUserDetails = async ({
     const channelInformation = await getChannelInformation(userInformation.id);
     await userCreate({
       displayName: channelInformation.broadcaster_name,
+      isBot: knownBots.includes(channelInformation.broadcaster_login),
       lastGamePlayed: channelInformation.game_name,
       twitchID: channelInformation.broadcaster_id,
       username: channelInformation.broadcaster_login,

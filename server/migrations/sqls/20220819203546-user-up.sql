@@ -6,5 +6,6 @@ CREATE TABLE `user`(
   `displayName` VARCHAR(25) NOT NULL,
   `twitchID` VARCHAR(32) NOT NULL,
   `lastGamePlayed` VARCHAR(255) NOT NULL,
+  `isBot` TINYINT(1) NOT NULL DEFAULT 0,
   UNIQUE INDEX(`username`)
 ) ENGINE = InnoDB;

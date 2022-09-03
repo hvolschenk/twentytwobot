@@ -5,6 +5,7 @@ export interface User extends RowDataPacket {
   dateUpdated: number;
   displayName: string;
   id: number;
+  isBot: boolean;
   lastGamePlayed: string;
   twitchID: string;
   username: string;

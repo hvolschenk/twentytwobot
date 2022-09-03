@@ -5,11 +5,12 @@ import { User } from '../types/User';
 
 type UserCreateOptions = Pick<
   User,
-  'displayName' | 'lastGamePlayed' | 'twitchID' | 'username'
+  'displayName' | 'isBot' | 'lastGamePlayed' | 'twitchID' | 'username'
 >;
 
 const userCreate = ({
   displayName,
+  isBot,
   lastGamePlayed,
   twitchID,
   username,
@@ -18,8 +19,14 @@ const userCreate = ({
     const databaseConnection = getDatabaseConnection();
     databaseConnection.execute<mysql.ResultSetHeader>(
       {
-        sql: 'CALL user_create(?, ?, ?, ?)',
-        values: [username, displayName, twitchID, lastGamePlayed],
+        sql: 'CALL user_create(?, ?, ?, ?, ?)',
+        values: [
+          username,
+          displayName,
+          twitchID,
+          lastGamePlayed,
+          isBot ? 1 : 0,
+        ],
       },
       (error, result) => {
         if (error) {
