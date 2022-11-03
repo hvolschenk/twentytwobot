@@ -1,9 +1,9 @@
-import getChannelInformation from '../api/getChannelInformation';
-import getUserInformation from '../api/getUserInformation';
+import userCreate from '../api/userCreate';
+import userGetByUsername from '../api/userGetByUsername';
+import userUpdate from '../api/userUpdate';
 import { knownBots } from '../constants';
-import userCreate from '../database/userCreate';
-import userGetByUsername from '../database/userGetByUsername';
-import userUpdate from '../database/userUpdate';
+import getChannelInformation from '../twitch/getChannelInformation';
+import getUserInformation from '../twitch/getUserInformation';
 import { User } from '../types/User';
 
 interface UpdateUserDetailsOptions {
@@ -11,11 +11,22 @@ interface UpdateUserDetailsOptions {
   username: User['username'];
 }
 
+const getStoredUser = async (
+  username: User['username']
+): Promise<User | null> => {
+  try {
+    const storedUser = await userGetByUsername({ username });
+    return storedUser.status === 200 ? storedUser.data : null;
+  } catch (error) {
+    return null;
+  }
+};
+
 const updateUserDetails = async ({
   forceUpdate = false,
   username,
 }: UpdateUserDetailsOptions) => {
-  const storedUser = await userGetByUsername({ username });
+  const storedUser = await getStoredUser(username);
   if (!storedUser) {
     const userInformation = await getUserInformation(username);
     const channelInformation = await getChannelInformation(userInformation.id);
@@ -33,9 +44,9 @@ const updateUserDetails = async ({
     const channelInformation = await getChannelInformation(storedUser.twitchID);
     await userUpdate({
       displayName: channelInformation.broadcaster_name,
+      id: storedUser.id,
       lastGamePlayed: channelInformation.game_name,
       twitchID: channelInformation.broadcaster_id,
-      id: storedUser.id,
     });
   }
 };

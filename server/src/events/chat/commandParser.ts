@@ -1,6 +1,28 @@
-import commandGetInvocationsCount from '../../database/commandGetInvocationsCount';
-import userGetDisplayNameByUsername from '../../database/userGetDisplayNameByUsername';
-import userGetLastGamePlayedByUsername from '../../database/userGetLastGamePlayedByUsername';
+import commandGetInvocationsByKeyword from '../../api/commandGetInvocationsByKeyword';
+import userGetByUsername from '../../api/userGetByUsername';
+import { CommandKeyword } from '../../types/CommandKeyword';
+import { CommandWithInvocations } from '../../types/CommandWithInvocations';
+import { User } from '../../types/User';
+
+const getCommandInvocations = async (
+  keyword: CommandKeyword['keyword']
+): Promise<CommandWithInvocations | null> => {
+  try {
+    const command = await commandGetInvocationsByKeyword({ keyword });
+    return command.status === 200 ? command.data : null;
+  } catch (error) {
+    return null;
+  }
+};
+
+const getUser = async (username: User['username']): Promise<User | null> => {
+  try {
+    const user = await userGetByUsername({ username });
+    return user.status === 200 ? user.data : null;
+  } catch (error) {
+    return null;
+  }
+};
 
 interface Replacer {
   identifier: string;
@@ -28,8 +50,8 @@ const replacers: Replacer[] = [
     matcher: /commandCount .+/,
     replacer: async (variable) => {
       const keyword = variable.split(' ')[1].replace('!', '');
-      const count = await commandGetInvocationsCount({ keyword });
-      return count.toString();
+      const command = await getCommandInvocations(keyword);
+      return command ? command.invocations.toString() : '0';
     },
   },
   {
@@ -55,8 +77,8 @@ const replacers: Replacer[] = [
     matcher: /^userDisplayName [@a-zA-Z0-9]+$/,
     replacer: async (variable) => {
       const username = variable.split(' ')[1].replace('@', '');
-      const user = await userGetDisplayNameByUsername({ username });
-      return user?.displayName || username;
+      const user = await getUser(username);
+      return user ? user.displayName : username;
     },
   },
   {
@@ -64,8 +86,8 @@ const replacers: Replacer[] = [
     matcher: /^userLastGamePlayed [@a-zA-Z0-9]+$/,
     replacer: async (variable) => {
       const username = variable.split(' ')[1].replace('@', '');
-      const user = await userGetLastGamePlayedByUsername({ username });
-      return user?.lastGamePlayed || '-';
+      const user = await getUser(username);
+      return user ? user.lastGamePlayed : '-';
     },
   },
 ];

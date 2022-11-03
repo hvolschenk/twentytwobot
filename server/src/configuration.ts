@@ -1,9 +1,6 @@
 interface Configuration {
-  mySQL: {
-    database(): string;
-    host(): string;
-    password(): string;
-    username(): string;
+  api: {
+    baseURL(): string;
   };
   twitchTV: {
     accessToken(): string;
@@ -14,11 +11,8 @@ interface Configuration {
 }
 
 const configuration: Configuration = {
-  mySQL: {
-    database: () => process.env.MYSQL_DATABASE,
-    host: () => process.env.MYSQL_HOST,
-    password: () => process.env.MYSQL_PASSWORD,
-    username: () => process.env.MYSQL_USER,
+  api: {
+    baseURL: () => process.env.API_BASE_URL,
   },
   twitchTV: {
     accessToken: () => process.env.TWITCHTV_ACCESS_TOKEN,

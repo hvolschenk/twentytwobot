@@ -1,10 +1,7 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      MYSQL_DATABASE: string;
-      MYSQL_HOST: string;
-      MYSQL_PASSWORD: string;
-      MYSQL_USER: string;
+      API_BASE_URL: string;
       NODE_ENV: 'development' | 'production';
       PWD: string;
       TWITCHTV_ACCESS_TOKEN: string;

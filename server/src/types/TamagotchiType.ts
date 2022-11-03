@@ -1,6 +1,4 @@
-import { RowDataPacket } from 'mysql2';
-
-export interface TamagotchiType extends RowDataPacket {
+export interface TamagotchiType {
   display: string;
   id: number;
   type: string;

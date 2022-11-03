@@ -1,6 +1,4 @@
-import { RowDataPacket } from 'mysql2';
-
-export interface Timer extends RowDataPacket {
+export interface Timer {
   id: number;
   name: string;
   intervalSeconds: number;

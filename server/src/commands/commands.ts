@@ -1,9 +1,30 @@
 import { Events } from 'tmi.js';
 
-import commandKeywordGetAllByCommandID from '../database/commandKeywordGetAllByCommandID';
-import commandKeywordGetAllPrimary from '../database/commandKeywordGetAllPrimary';
-import commandGetByKeyword from '../database/commandGetByKeyword';
+import commandGetByKeyword from '../api/commandGetByKeyword';
+import commandGetAll from '../api/commandGetAll';
 import getTwitchClient from '../shared/getTwitchClient';
+import { CommandKeyword } from '../types/CommandKeyword';
+import { CommandWithKeywords } from '../types/CommandWithKeywords';
+
+const getAllCommands = async (): Promise<CommandWithKeywords[]> => {
+  try {
+    const allCommands = await commandGetAll();
+    return allCommands.status === 200 ? allCommands.data : [];
+  } catch (error) {
+    return [];
+  }
+};
+
+const getCommandByKeyword = async (
+  keyword: CommandKeyword['keyword']
+): Promise<CommandWithKeywords | null> => {
+  try {
+    const command = await commandGetByKeyword({ keyword });
+    return command.status === 200 ? command.data : null;
+  } catch (error) {
+    return null;
+  }
+};
 
 const commands: Events['chat'] = async (channel, tags, message) => {
   const twitchClient = getTwitchClient();
@@ -11,7 +32,7 @@ const commands: Events['chat'] = async (channel, tags, message) => {
 
   if (parts.length > 1) {
     const keyword = parts[1].replace('!', '');
-    const command = await commandGetByKeyword({ keyword });
+    const command = await getCommandByKeyword(keyword);
     if (!command) {
       twitchClient.say(
         channel,
@@ -19,25 +40,24 @@ const commands: Events['chat'] = async (channel, tags, message) => {
       );
       return;
     }
-    const commandKeywords = await commandKeywordGetAllByCommandID({
-      id: command.id,
-    });
-    const keywords = commandKeywords
-      .map((commandKeyword) => commandKeyword.keyword)
-      .map((commandKeyword) => `!${commandKeyword}`)
+    const keywords = command.keywords
+      .map((commandKeyword) => `!${commandKeyword.keyword}`)
       .join(', ');
     twitchClient.say(
       channel,
       `Command: !${keyword}. ${command.description}. Synonyms: ${keywords}.`
     );
   } else {
-    const commandKeywords = await commandKeywordGetAllPrimary();
-    const allCommands = commandKeywords
-      .map((commandKeyword) => `!${commandKeyword}`)
+    const allCommands = await getAllCommands();
+    const commandsString = allCommands
+      .map((command) => command.keywords)
+      .map((keywords) => keywords.find((keyword) => keyword.isPrimary))
+      .filter((command): command is CommandKeyword => Boolean(command))
+      .map((command) => command.keyword)
       .join(', ');
     twitchClient.say(
       channel,
-      `Available commands are: ${allCommands}. Type !help [command] to get help with a specific command.`
+      `Available commands are: ${commandsString}. Type !help [command] to get help with a specific command.`
     );
   }
 };

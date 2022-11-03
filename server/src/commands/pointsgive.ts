@@ -1,14 +1,34 @@
 import { Events } from 'tmi.js';
 
-import pointsAdd from '../database/pointsAdd';
-import pointsRemove from '../database/pointsRemove';
+import pointsGive from '../api/pointsGive';
 import getTwitchClient from '../shared/getTwitchClient';
+import { Points } from '../types/Points';
+import { User } from '../types/User';
+
+const givePoints = async (
+  from: User['username'],
+  to: User['username'],
+  points: Points['points']
+): Promise<boolean> => {
+  try {
+    const pointsGiveRequest = await pointsGive({ from, points, to });
+    return pointsGiveRequest.status === 204;
+  } catch (error) {
+    return false;
+  }
+};
 
 const pointsgive: Events['chat'] = async (channel, tags, message) => {
   const twitchClient = getTwitchClient();
   const parts = message.split(' ');
-  const username = (parts[1] || '22atreyu22').replace('@', '');
-  const points = parseInt(parts[2], 10) || 22;
+  if (!tags.username) {
+    return;
+  }
+  if (parts.length <= 2) {
+    return;
+  }
+  const username = parts[1].replace('@', '');
+  const points = parseInt(parts[2], 10);
   if (username === tags.username) {
     twitchClient.say(
       channel,
@@ -16,8 +36,14 @@ const pointsgive: Events['chat'] = async (channel, tags, message) => {
     );
     return;
   }
-  await pointsAdd({ points, username });
-  await pointsRemove({ points, username: tags.username });
+  const pointsGiveRequest = await givePoints(tags.username, username, points);
+  if (!pointsGiveRequest) {
+    twitchClient.say(
+      channel,
+      `@${tags.username}, something went wrong while trying to give points to @${username}`
+    );
+    return;
+  }
   twitchClient.say(
     channel,
     `@${tags.username} gave ${points} points to @${username}`
