@@ -1,7 +1,20 @@
 import { Events } from 'tmi.js';
 
-import pointsGetByUsername from '../database/pointsGetByUsername';
+import pointsGetByUsername from '../api/pointsGetByUsername';
 import getTwitchClient from '../shared/getTwitchClient';
+import { User } from '../types/User';
+import { UserWithPoints } from '../types/UserWithPoints';
+
+const getUserWithPoints = async (
+  username: User['username']
+): Promise<UserWithPoints | null> => {
+  try {
+    const userWithPoints = await pointsGetByUsername({ username });
+    return userWithPoints.status === 200 ? userWithPoints.data : null;
+  } catch (error) {
+    return null;
+  }
+};
 
 const points: Events['chat'] = async (channel, tags, message) => {
   const twitchClient = getTwitchClient();
@@ -11,28 +24,19 @@ const points: Events['chat'] = async (channel, tags, message) => {
     twitchClient.say(channel, 'No user to display points for. Weird, huh?');
     return;
   }
-  const pointsWithUser = await pointsGetByUsername({ username });
-  if (!pointsWithUser) {
+  const userWithPoints = await getUserWithPoints(username);
+  if (!userWithPoints) {
     twitchClient.say(
       channel,
       `Somehow @${username} does not have any points on record. @22atreyu22 you need to fix this, dude.`
     );
     return;
   }
-  if (username === tags.username) {
-    twitchClient.say(
-      channel,
-      `@${
-        pointsWithUser.displayName
-      }, you have ${pointsWithUser.points.toLocaleString('en')} points.`
-    );
-    return;
-  }
   twitchClient.say(
     channel,
-    `@${pointsWithUser.displayName} has ${pointsWithUser.points.toLocaleString(
-      'en'
-    )} points.`
+    `@${
+      userWithPoints.displayName
+    } has ${userWithPoints.points.points.toLocaleString('en')} points.`
   );
 };
 

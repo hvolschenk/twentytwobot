@@ -1,89 +1,96 @@
-import tamagotchiDieByID from '../database/tamagotchiDieByID';
-import tamagotchiGetByID from '../database/tamagotchiGetByID';
-import tamagotchiGetForCleanLoss from '../database/tamagotchiGetForCleanLoss';
-import tamagotchiGetForEntertainmentLoss from '../database/tamagotchiGetForEntertainmentLoss';
-import tamagotchiGetForFoodLoss from '../database/tamagotchiGetForFoodLoss';
-import tamagotchiLoseClean from '../database/tamagotchiLoseClean';
-import tamagotchiLoseEntertainment from '../database/tamagotchiLoseEntertainment';
-import tamagotchiLoseFood from '../database/tamagotchiLoseFood';
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
+import tamagotchiDie from '../api/tamagotchiDie';
+import tamagotchiGetAll from '../api/tamagotchiGetAll';
+import tamagotchiNeglect from '../api/tamagotchiNeglect';
 import getTwitchClient from '../shared/getTwitchClient';
-import { Tamagotchi } from '../types/Tamagotchi';
+import { TamagotchiWithUser } from '../types/TamagotchiWithUser';
 
 let hasStarted: boolean = false;
 
-const startTamagotchiTimers = (channel: string) => {
-  if (!hasStarted) {
-    const twitchClient = getTwitchClient();
-    hasStarted = true;
-    setInterval(async () => {
-      const [
-        tamagotchisCleanLoss,
-        tamagotchisEntertainmentLoss,
-        tamagotchisFoodLoss,
-      ] = await Promise.all([
-        tamagotchiGetForCleanLoss({ timeMinutes: 60 }),
-        tamagotchiGetForEntertainmentLoss({ timeMinutes: 45 }),
-        tamagotchiGetForFoodLoss({ timeMinutes: 30 }),
-      ]);
-      const lossPromises: Promise<void>[] = [];
-      if (tamagotchisCleanLoss.length > 0) {
-        const cleanPromises = tamagotchisCleanLoss.map((tamagotchi) =>
-          tamagotchiLoseClean({ clean: 1, id: tamagotchi.id })
-        );
-        lossPromises.push(...cleanPromises);
-      }
-      if (tamagotchisEntertainmentLoss.length > 0) {
-        const cleanPromises = tamagotchisEntertainmentLoss.map((tamagotchi) =>
-          tamagotchiLoseEntertainment({ entertainment: 1, id: tamagotchi.id })
-        );
-        lossPromises.push(...cleanPromises);
-      }
-      if (tamagotchisFoodLoss.length > 0) {
-        const cleanPromises = tamagotchisFoodLoss.map((tamagotchi) =>
-          tamagotchiLoseFood({ food: 1, id: tamagotchi.id })
-        );
-        lossPromises.push(...cleanPromises);
-      }
-      await Promise.all(lossPromises);
+interface TamagotchiCheckDeathOptions {
+  channel: string;
+  deadTamagotchis: number[];
+  loseClean?: number;
+  loseEntertainment?: number;
+  loseFood?: number;
+  tamagotchi: TamagotchiWithUser;
+}
 
-      const fetchPromises: Promise<Tamagotchi | null>[] = [
-        ...tamagotchisCleanLoss,
-        ...tamagotchisEntertainmentLoss,
-        ...tamagotchisFoodLoss,
-      ].map((tamagotchi) => tamagotchiGetByID({ id: tamagotchi.id }));
-
-      const updatedTamagotchis = await Promise.all(fetchPromises);
-      const deadTamagotchis = updatedTamagotchis
-        .filter((tamagotchi): tamagotchi is Tamagotchi => tamagotchi !== null)
-        .filter((tamagotchi) => {
-          const noClean = tamagotchi.clean === 0;
-          const noEntertainment = tamagotchi.entertainment === 0;
-          const noFood = tamagotchi.food === 0;
-          const dead = noClean
-            ? noEntertainment || noFood
-            : noEntertainment && noFood;
-          return dead;
-        })
-        .filter((tamagotchi, index, originalArray) => {
-          const firstIndex = originalArray.findIndex(
-            (value) => value.id === tamagotchi.id
-          );
-          return index === firstIndex;
-        });
-      const deadPromises: Promise<void>[] = deadTamagotchis.map((tamagotchi) =>
-        tamagotchiDieByID({ id: tamagotchi.id })
+const tamagotchiCheckDeath = async ({
+  channel,
+  deadTamagotchis,
+  loseClean = 0,
+  loseEntertainment = 0,
+  loseFood = 0,
+  tamagotchi,
+}: TamagotchiCheckDeathOptions): Promise<void> => {
+  const noClean = tamagotchi.clean - loseClean === 0;
+  const noEntertainment = tamagotchi.entertainment - loseEntertainment === 0;
+  const noFood = tamagotchi.food - loseFood === 0;
+  const dead = noClean ? noEntertainment || noFood : noEntertainment && noFood;
+  if (dead && !deadTamagotchis.includes(tamagotchi.id)) {
+    const tamagotchiDieResult = await tamagotchiDie({ id: tamagotchi.id });
+    if (tamagotchiDieResult.status === 204) {
+      deadTamagotchis.push(tamagotchi.id);
+      const twitchClient = getTwitchClient();
+      twitchClient.say(
+        channel,
+        `@${tamagotchi.user.displayName}, ${tamagotchi.name} did not make it. Sadface. You can type '!tama' to try again.`
       );
-      await Promise.all(deadPromises);
-
-      // eslint-disable-next-line no-restricted-syntax
-      for (const tamagotchi of deadTamagotchis) {
-        twitchClient.say(
-          channel,
-          `@${tamagotchi.username}, ${tamagotchi.name} did not make it. Sadface. You can type '!tama' to try again.`
-        );
-      }
-    }, 60 * 1000);
+    }
   }
 };
 
-export default startTamagotchiTimers;
+const timerTamagotchi = (channel: string) => {
+  if (!hasStarted) {
+    hasStarted = true;
+    setInterval(async () => {
+      const deadTamagotchis: number[] = [];
+      const tamagotchis = await tamagotchiGetAll();
+      if (tamagotchis.status !== 200) {
+        return;
+      }
+      for (const tamagotchi of tamagotchis.data) {
+        if (
+          Date.now() - new Date(tamagotchi.dateLossClean).getTime() >
+          2 * 60 * 60 * 1000
+        ) {
+          await tamagotchiNeglect({ clean: 1, id: tamagotchi.id });
+          await tamagotchiCheckDeath({
+            channel,
+            deadTamagotchis,
+            loseClean: 1,
+            tamagotchi,
+          });
+        }
+        if (
+          Date.now() - new Date(tamagotchi.dateLossEntertainment).getTime() >
+          1.5 * 60 * 60 * 1000
+        ) {
+          await tamagotchiNeglect({ entertainment: 1, id: tamagotchi.id });
+          await tamagotchiCheckDeath({
+            channel,
+            deadTamagotchis,
+            loseEntertainment: 1,
+            tamagotchi,
+          });
+        }
+        if (
+          Date.now() - new Date(tamagotchi.dateLossFood).getTime() >
+          60 * 60 * 1000
+        ) {
+          await tamagotchiNeglect({ food: 1, id: tamagotchi.id });
+          await tamagotchiCheckDeath({
+            channel,
+            deadTamagotchis,
+            loseFood: 1,
+            tamagotchi,
+          });
+        }
+      }
+    }, 5 * 60 * 1000);
+  }
+};
+
+export default timerTamagotchi;

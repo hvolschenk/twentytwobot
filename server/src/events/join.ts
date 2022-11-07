@@ -1,18 +1,21 @@
 import { Events } from 'tmi.js';
 
+import userJoinByUsername from '../api/userJoinByUsername';
 import configuration from '../configuration';
-import userLogJoin from '../database/userLogJoin';
 import updateUserDetails from '../helpers/updateUserDetails';
-import startTimers from '../timers';
-import startTamagotchiTimers from '../timers/tamagotchi';
+import { tamagotchi, timer } from '../timers';
 
 const join: Events['join'] = async (channel, username) => {
   if (username === configuration.twitchTV.username()) {
-    startTimers(channel);
-    startTamagotchiTimers(channel);
+    timer(channel);
+    tamagotchi(channel);
   }
-  await updateUserDetails({ username });
-  await userLogJoin({ username });
+  try {
+    await updateUserDetails({ username });
+    await userJoinByUsername({ username });
+  } catch (error) {
+    console.log('Error joining user', (error as Error).message);
+  }
 };
 
 export default join;

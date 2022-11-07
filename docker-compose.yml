@@ -5,24 +5,23 @@ networks:
     driver: bridge
 
 services:
-  server:
-    build: "./server"
+  api:
+    build: "./api"
     command: sh -c './wait-for database:3306 --timeout=240 -- npm start'
     depends_on:
       - database
     environment:
+      - APPLICATION_NAME=${API_APPLICATION_NAME:-twentytwobot-api}
+      - LOG_LEVEL=${API_LOG_LEVEL:-error}
       - MYSQL_DATABASE=${MYSQL_DATABASE:-twentytwobot}
       - MYSQL_HOST=${MYSQL_HOST:-database}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_USER=${MYSQL_USER:-twentytwobot}
-      - TWITCHTV_ACCESS_TOKEN=${TWITCHTV_ACCESS_TOKEN}
-      - TWITCHTV_CHANNELS=${TWITCHTV_CHANNELS:-22atreyu22}
-      - TWITCHTV_CLIENT_ID=${TWITCHTV_CLIENT_ID}
-      - TWITCHTV_USERNAME=${TWITCHTV_USERNAME:-twentytwobot}
     networks:
       - twentytwobot-network
     volumes:
-      - ./server:/home/node/application/app:delegated
+      - ./api:/home/node/application/app:delegated
+      - ./api/logs:/var/log/app:cached
       - /home/node/application/app/node_modules/
 
   database:
@@ -36,3 +35,20 @@ services:
       - twentytwobot-network
     volumes:
       - ./database/data:/var/lib/mysql:cached
+
+  server:
+    build: "./server"
+    command: sh -c './wait-for api:3000 --timeout=240 -- npm start'
+    depends_on:
+      - api
+    environment:
+      - API_BASE_URL=${SERVER_API_BASE_URL:-http://api:3000}
+      - TWITCHTV_ACCESS_TOKEN=${TWITCHTV_ACCESS_TOKEN}
+      - TWITCHTV_CHANNELS=${TWITCHTV_CHANNELS:-22atreyu22}
+      - TWITCHTV_CLIENT_ID=${TWITCHTV_CLIENT_ID}
+      - TWITCHTV_USERNAME=${TWITCHTV_USERNAME:-twentytwobot}
+    networks:
+      - twentytwobot-network
+    volumes:
+      - ./server:/home/node/application/app:delegated
+      - /home/node/application/app/node_modules/

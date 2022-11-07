@@ -1,8 +1,6 @@
-import { RowDataPacket } from 'mysql2';
-
 import { User } from './User';
 
-export interface ShoutoutLog extends RowDataPacket {
+export interface ShoutoutLog {
   dateShouted: number;
   id: number;
   usernameFrom: User['username'];

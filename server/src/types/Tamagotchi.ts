@@ -1,6 +1,4 @@
-import { RowDataPacket } from 'mysql2';
-
-export interface Tamagotchi extends RowDataPacket {
+export interface Tamagotchi {
   clean: number;
   dateCreated: number;
   dateDied: number | null;

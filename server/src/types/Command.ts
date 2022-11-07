@@ -1,6 +1,4 @@
-import { RowDataPacket } from 'mysql2';
-
-export interface Command extends RowDataPacket {
+export interface Command {
   command: null | string;
   description: string;
   id: number;

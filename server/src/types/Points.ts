@@ -1,8 +1,6 @@
-import { RowDataPacket } from 'mysql2';
-
 import { User } from './User';
 
-export interface Points extends RowDataPacket {
+export interface Points {
   dateUpdated: number;
   id: number;
   points: number;

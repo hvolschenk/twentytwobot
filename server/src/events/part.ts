@@ -1,9 +1,13 @@
 import { Events } from 'tmi.js';
 
-import userLogPart from '../database/userLogPart';
+import userPartByUsername from '../api/userPartByUsername';
 
 const part: Events['part'] = async (channel, username) => {
-  await userLogPart({ username });
+  try {
+    await userPartByUsername({ username });
+  } catch (error) {
+    console.log('Error parting user', (error as Error).message);
+  }
 };
 
 export default part;
