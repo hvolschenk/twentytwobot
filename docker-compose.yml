@@ -23,6 +23,20 @@ services:
       - ./api:/home/node/application/app:delegated
       - ./api/logs:/var/log/app:cached
       - /home/node/application/app/node_modules/
+  
+  client:
+    build: "./client"
+    command: ["npm", "start"]
+    environment:
+      - PORT=1234
+    networks:
+      - twentytwobot-network
+    ports:
+      - "2222:1234"
+    volumes:
+      - ./client:/home/node/application/app:delegated
+      - /home/node/application/app/dist/
+      - /home/node/application/app/node_modules/
 
   database:
     build: "./database"

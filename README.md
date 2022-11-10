@@ -32,7 +32,10 @@ For _PRODUCTION_:
 $ caffeinate -i -d docker-compose up
 ```
 
+The _Client_ layer can then be opened on [http://localhost:2222][].
+
 ---
 
 [Docker]: https://www.docker.com/
 [docker-compose]: https://docs.docker.com/compose/
+[http://localhost:2222]: http://localhost:2222
