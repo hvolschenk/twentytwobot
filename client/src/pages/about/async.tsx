@@ -1,10 +1,10 @@
 import React from 'react';
 
-import About from './index';
+const AboutLazy = React.lazy(() => import('./index'));
 
 const AboutAsync: React.FC = () => (
   <React.Suspense fallback={<p>Loading about page</p>}>
-    <About />
+    <AboutLazy />
   </React.Suspense>
 );
 
