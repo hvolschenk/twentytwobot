@@ -26,7 +26,9 @@ services:
   
   client:
     build: "./client"
-    command: ["npm", "start"]
+    command: sh -c './wait-for api:3000 --timeout=240 -- npm start'
+    depends_on:
+      - api
     environment:
       - API_BASE_URL=${CLIENT_API_BASE_URL:-/api}
       - PORT=1234
