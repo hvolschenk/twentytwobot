@@ -28,6 +28,7 @@ services:
     build: "./client"
     command: ["npm", "start"]
     environment:
+      - API_BASE_URL=${CLIENT_API_BASE_URL:-/api}
       - PORT=1234
     networks:
       - twentytwobot-network
