@@ -1,9 +1,9 @@
 import Skeleton from '@mui/material/Skeleton';
 import React from 'react';
 
-const HomeLazy = React.lazy(() => import('./index'));
+const CommandLazy = React.lazy(() => import('./index'));
 
-const HomeAsync: React.FC = () => (
+const CommandAsync: React.FC = () => (
   <React.Suspense
     fallback={
       <React.Fragment>
@@ -13,8 +13,8 @@ const HomeAsync: React.FC = () => (
       </React.Fragment>
     }
   >
-    <HomeLazy />
+    <CommandLazy />
   </React.Suspense>
 );
 
-export default HomeAsync;
+export default CommandAsync;

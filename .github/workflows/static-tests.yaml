@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Global
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -17,19 +18,37 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+      
+      # Client
+      - name: "[Client] Install dependencies"
+        run: npm ci
+        working-directory: ./client
 
-      - name: Install dependencies
+      - name: "[Client] Test formatting"
+        run: npm run test:format
+        working-directory: ./client
+      
+      - name: "[Client] Test linting"
+        run: npm run test:lint
+        working-directory: ./client
+      
+      - name: "[Client] Test types"
+        run: npm run test:types
+        working-directory: ./client
+
+      # Server
+      - name: "[Server] Install dependencies"
         run: npm ci
         working-directory: ./server
 
-      - name: Test formatting
+      - name: "[Server] Test formatting"
         run: npm run test:format
         working-directory: ./server
       
-      - name: Test linting
+      - name: "[Server] Test linting"
         run: npm run test:lint
         working-directory: ./server
       
-      - name: Test types
+      - name: "[Server] Test types"
         run: npm run test:types
         working-directory: ./server
