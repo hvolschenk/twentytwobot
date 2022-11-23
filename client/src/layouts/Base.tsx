@@ -7,8 +7,7 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
-import urlCommands from '../pages/commands/urls';
-import { root, timers } from '../urls';
+import { commands, root, timers } from '../urls';
 
 const Base: React.FC = () => (
   <React.Fragment>
@@ -19,11 +18,7 @@ const Base: React.FC = () => (
           <Button component={Link} sx={{ color: 'white' }} to={root()}>
             Home
           </Button>
-          <Button
-            component={Link}
-            sx={{ color: 'white' }}
-            to={urlCommands.urlRoot()}
-          >
+          <Button component={Link} sx={{ color: 'white' }} to={commands()}>
             Commands
           </Button>
           <Button component={Link} sx={{ color: 'white' }} to={timers()}>
