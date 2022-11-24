@@ -8,8 +8,9 @@ import Paper from '@mui/material/Paper';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { command as commandURL } from '~/src/urls';
+
 import { CommandWithKeywords } from '../../../types/CommandWithKeywords';
-import urlCommands, { command as urlCommand } from '../urls';
 
 interface ListProps {
   commands: CommandWithKeywords[];
@@ -31,7 +32,7 @@ const List: React.FC<ListProps> = ({ commands }) => {
           <ListItem key={command.id}>
             <ListItemButton
               component={Link}
-              to={urlCommands.url(urlCommand(command.id.toString()))}
+              to={commandURL(command.id.toString())}
             >
               <ListItemText
                 primary={command.name}

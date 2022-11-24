@@ -19,16 +19,22 @@ const PageTitle: React.FC<PageTitleProps> = ({ breadcrumbs, title }) => (
   <Box marginBottom={2}>
     {breadcrumbs && breadcrumbs.length > 0 && (
       <Breadcrumbs>
-        {breadcrumbs.map((breadcrumb) => (
-          <React.Fragment>
-            {breadcrumb.url && (
-              <Link component={RouterLink} to={breadcrumb.url}>
+        {breadcrumbs.map((breadcrumb) => {
+          if (breadcrumb.url) {
+            return (
+              <Link
+                component={RouterLink}
+                key={breadcrumb.url}
+                to={breadcrumb.url}
+              >
                 {breadcrumb.title}
               </Link>
-            )}
-            {!breadcrumb.url && <Typography>{breadcrumb.title}</Typography>}
-          </React.Fragment>
-        ))}
+            );
+          }
+          return (
+            <Typography key={breadcrumb.title}>{breadcrumb.title}</Typography>
+          );
+        })}
       </Breadcrumbs>
     )}
     <Typography variant="h4">{title}</Typography>
