@@ -1,5 +1,6 @@
 import express from 'express';
 
+import commandCreate from './create';
 import commandGetAll from './getAll';
 import commandGetByID from './getByID';
 import commandGetByKeyword from './getByKeyword';
@@ -14,6 +15,7 @@ router.get(commandByKeyword(), commandGetByKeyword);
 router.get(invocationsByKeyword(), commandGetInvocationsByKeyword);
 router.get(root(), commandGetAll);
 
+router.post(root(), commandCreate);
 router.post(invoke(), commandInvoke);
 
 export default router;
