@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -9,11 +9,8 @@ import Home from './pages/home/async';
 import Timers from './pages/timers/async';
 import { Provider as SnackbarProvider } from './providers/Snackbar';
 import ThemeProvider from './providers/Theme';
+import queryClient from './shared/queryClient';
 import { commands, root, timers, urlLayout } from './urls';
-
-const queryClient = new QueryClient({
-  defaultOptions: { queries: { staleTime: Infinity } },
-});
 
 const Application: React.FC = () => (
   <QueryClientProvider client={queryClient}>
