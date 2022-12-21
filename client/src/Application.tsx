@@ -7,6 +7,7 @@ import Base from './layouts/Base';
 import Commands from './pages/commands/async';
 import Home from './pages/home/async';
 import Timers from './pages/timers/async';
+import { Provider as SnackbarProvider } from './providers/Snackbar';
 import ThemeProvider from './providers/Theme';
 import { commands, root, timers, urlLayout } from './urls';
 
@@ -18,13 +19,15 @@ const Application: React.FC = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <ThemeProvider>
-        <Routes>
-          <Route element={<Base />}>
-            <Route element={<Commands />} path={urlLayout(commands())} />
-            <Route element={<Home />} path={urlLayout(root())} />
-            <Route element={<Timers />} path={urlLayout(timers())} />
-          </Route>
-        </Routes>
+        <SnackbarProvider>
+          <Routes>
+            <Route element={<Base />}>
+              <Route element={<Commands />} path={urlLayout(commands())} />
+              <Route element={<Home />} path={urlLayout(root())} />
+              <Route element={<Timers />} path={urlLayout(timers())} />
+            </Route>
+          </Routes>
+        </SnackbarProvider>
       </ThemeProvider>
     </BrowserRouter>
     <ReactQueryDevtools />
