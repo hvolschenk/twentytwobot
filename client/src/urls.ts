@@ -1,6 +1,9 @@
 export type CommandParams = { commandID: string };
 export const command = (commandID: string = ':commandID') =>
   `/commands/${commandID}`;
+export const commandCreate = (): string => '/commands/create';
+export const commandEdit = (commandID: string = ':commandID'): string =>
+  `/commands/${commandID}/edit`;
 export const commands = () => '/commands';
 
 export const root = () => '/';

@@ -1,13 +1,16 @@
+import EditIcon from '@mui/icons-material/Edit';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
+import Fab from '@mui/material/Fab';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import PageTitle from '~/src/components/PageTitle';
-import { commands, root } from '~/src/urls';
+import { commandEdit, commands, root } from '~/src/urls';
 
-import { useCommand } from '../context';
+import { useCommand } from './context';
 
 const Command: React.FC = () => {
   const { command } = useCommand();
@@ -35,6 +38,18 @@ const Command: React.FC = () => {
       <Box marginTop={2}>
         <Typography>{command.description}</Typography>
       </Box>
+      <Fab
+        color="primary"
+        component={Link}
+        sx={{
+          bottom: (theme) => theme.spacing(2),
+          position: 'fixed',
+          right: (theme) => theme.spacing(2),
+        }}
+        to={commandEdit(command.id.toString())}
+      >
+        <EditIcon />
+      </Fab>
     </React.Fragment>
   );
 };
