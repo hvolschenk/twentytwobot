@@ -10,11 +10,7 @@ const commandGetByID = ({ id }: CommandGetByIDOptions) =>
       { sql: 'CALL command_get_by_id(?)', values: [id] },
       (error, response) => {
         if (error) {
-          reject(
-            new Error(
-              `Failed to get command '${id}': ${error.message}`
-            )
-          );
+          reject(new Error(`Failed to get command '${id}': ${error.message}`));
         } else {
           resolve(response[0].length > 0 ? response[0][0] : null);
         }
