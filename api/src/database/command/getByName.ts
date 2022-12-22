@@ -1,16 +1,20 @@
 import getDatabaseConnection from '../../shared/database';
 import { Command } from '../../types/Command';
 
-type CommandGetByIDOptions = Pick<Command, 'id'>;
+type CommandGetByNameOptions = Pick<Command, 'name'>;
 
-const commandGetByID = ({ id }: CommandGetByIDOptions) =>
+const commandGetByName = ({ name }: CommandGetByNameOptions) =>
   new Promise<Command | null>((resolve, reject) => {
     const databaseConnection = getDatabaseConnection();
     databaseConnection.execute<Command[][]>(
-      { sql: 'CALL command_get_by_id(?)', values: [id] },
+      { sql: 'CALL command_get_by_name(?)', values: [name] },
       (error, response) => {
         if (error) {
-          reject(new Error(`Failed to get command '${id}': ${error.message}`));
+          reject(
+            new Error(
+              `Failed to get command by name '${name}': ${error.message}`
+            )
+          );
         } else {
           resolve(response[0].length > 0 ? response[0][0] : null);
         }
@@ -18,4 +22,4 @@ const commandGetByID = ({ id }: CommandGetByIDOptions) =>
     );
   });
 
-export default commandGetByID;
+export default commandGetByName;

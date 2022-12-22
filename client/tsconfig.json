@@ -103,8 +103,8 @@
     "skipLibCheck": false                                /* Skip type checking all .d.ts files. */
   },
   "include": [
-    "./src/**/*",
-    "./environment.d.ts"
+    "./@types/**/*",
+    "./src/**/*"
   ],
   "ts-node": {
     "files": true

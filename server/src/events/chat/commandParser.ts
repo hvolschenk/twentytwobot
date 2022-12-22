@@ -74,7 +74,7 @@ const replacers: Replacer[] = [
   },
   {
     identifier: 'User display name',
-    matcher: /^userDisplayName [@a-zA-Z0-9]+$/,
+    matcher: /^userDisplayName [@a-zA-Z0-9_]+$/,
     replacer: async (variable) => {
       const username = variable.split(' ')[1].replace('@', '');
       const user = await getUser(username);
@@ -111,7 +111,7 @@ const commandParser = async ({
   let passes = 0;
   while (commandParsed.includes('{') && passes < MAXIMUM_PASSES) {
     passes += 1;
-    const commandVariablesMatcher = /\{[@a-zA-Z0-9| ]+\}/g;
+    const commandVariablesMatcher = /\{[@a-zA-Z0-9_| ]+\}/g;
     const matches = commandParsed.match(commandVariablesMatcher);
     if (matches) {
       // we have to use `for of` here as a loop with `forEach` will create additional clossures
