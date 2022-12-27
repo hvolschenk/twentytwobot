@@ -22,6 +22,7 @@ export const knownStreamers: string[] = [
   'eaglewings007',
   'esherya',
   'feldspaarr',
+  'flightlessrain',
   // 'froggen',
   'gnugit1',
   'grimfirexd',
