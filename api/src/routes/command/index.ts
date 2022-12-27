@@ -1,6 +1,7 @@
 import express from 'express';
 
 import commandCreate from './create';
+import commandDelete from './delete';
 import commandGetAll from './getAll';
 import commandGetByID from './getByID';
 import commandGetByKeyword from './getByKeyword';
@@ -16,6 +17,8 @@ import {
 } from './urls';
 
 const router = express.Router();
+
+router.delete(command(), commandDelete);
 
 router.get(command(), commandGetByID);
 router.get(commandByKeyword(), commandGetByKeyword);
