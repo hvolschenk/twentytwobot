@@ -1,16 +1,11 @@
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import MUIList from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import React from 'react';
-import { Link } from 'react-router-dom';
-
-import { command as commandURL } from '~/src/urls';
 
 import { CommandWithKeywords } from '../../../types/CommandWithKeywords';
+import ListItem from './ListItem';
 
 interface ListProps {
   commands: CommandWithKeywords[];
@@ -29,17 +24,7 @@ const List: React.FC<ListProps> = ({ commands }) => {
     <Paper>
       <MUIList>
         {commands.map((command) => (
-          <ListItem key={command.id}>
-            <ListItemButton
-              component={Link}
-              to={commandURL(command.id.toString())}
-            >
-              <ListItemText
-                primary={command.name}
-                secondary={command.description}
-              />
-            </ListItemButton>
-          </ListItem>
+          <ListItem command={command} />
         ))}
       </MUIList>
     </Paper>

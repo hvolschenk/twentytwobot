@@ -104,7 +104,7 @@ const CommandForm: React.FC<CommandFormProps> = ({
       <Card>
         <CardContent>
           <TextField
-            error={Boolean(errors.name)}
+            error={Boolean(errors.name) && Boolean(touched.name)}
             fullWidth
             helperText={touched.name && errors.name}
             label="Name"
@@ -115,7 +115,7 @@ const CommandForm: React.FC<CommandFormProps> = ({
             value={values.name}
           />
           <TextField
-            error={Boolean(errors.description)}
+            error={Boolean(errors.description) && Boolean(touched.description)}
             fullWidth
             helperText={touched.description && errors.description}
             label="Description"
@@ -146,7 +146,7 @@ const CommandForm: React.FC<CommandFormProps> = ({
               <TextField
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...params}
-                error={Boolean(errors.keywords)}
+                error={Boolean(errors.keywords) && Boolean(touched.keywords)}
                 fullWidth
                 helperText={keywordsHelperText}
                 label="Keywords"
