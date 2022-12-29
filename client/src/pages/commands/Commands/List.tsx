@@ -24,7 +24,7 @@ const List: React.FC<ListProps> = ({ commands }) => {
     <Paper>
       <MUIList>
         {commands.map((command) => (
-          <ListItem command={command} />
+          <ListItem key={command.id} command={command} />
         ))}
       </MUIList>
     </Paper>

@@ -1,5 +1,12 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-const Timers: React.FC = () => <p>Timers</p>;
+import TimersPage from './Timers/async';
+
+const Timers: React.FC = () => (
+  <Routes>
+    <Route element={<TimersPage />} index />
+  </Routes>
+);
 
 export default Timers;

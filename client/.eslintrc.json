@@ -34,6 +34,7 @@
     "no-sparse-arrays": "off",
     "react/function-component-definition": ["error", { "namedComponents": "arrow-function" }],
     "react/jsx-fragments": ["error", "element"],
+    "react/jsx-key": ["error"],
     "react/require-default-props": ["error", { "ignoreFunctionalComponents": true }],
     "sort-keys": ["error", "asc", { "caseSensitive": false }]
   },
