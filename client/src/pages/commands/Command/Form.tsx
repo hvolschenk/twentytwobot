@@ -155,6 +155,7 @@ const CommandForm: React.FC<CommandFormProps> = ({
             )}
             renderTags={(value, getTagProps) =>
               value.map((commandKeyword, index) => (
+                // eslint-disable-next-line react/jsx-key
                 <Chip
                   // eslint-disable-next-line react/jsx-props-no-spreading
                   {...getTagProps({ index })}
