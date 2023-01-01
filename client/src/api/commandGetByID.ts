@@ -2,7 +2,7 @@ import api from '../shared/api';
 import { CommandWithKeywords } from '../types/CommandWithKeywords';
 
 interface CommandGetByIDOptions {
-  commandID: number;
+  commandID: CommandWithKeywords['id'];
 }
 
 const commandGetByID = (options: CommandGetByIDOptions) =>
