@@ -8,6 +8,8 @@ export const commands = () => '/commands';
 
 export const root = () => '/';
 
+export type TimerParams = { timerID: string };
+export const timer = (timerID: string = ':timerID') => `/timers/${timerID}`;
 export const timers = () => '/timers';
 
 // -----------------------------------------------------------------------------
