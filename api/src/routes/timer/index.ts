@@ -1,5 +1,6 @@
 import express from 'express';
 
+import timerCreate from './create';
 import timerGetAll from './getAll';
 import timerGetByID from './getByID';
 import timerMessageGetRandomByTimerID from './messageGetRandomByTimerID';
@@ -10,5 +11,7 @@ const router = express.Router();
 router.get(timer(), timerGetByID);
 router.get(timerMessage(), timerMessageGetRandomByTimerID);
 router.get(timers(), timerGetAll);
+
+router.post(timers(), timerCreate);
 
 export default router;
