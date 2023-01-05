@@ -20,7 +20,7 @@ const commandDelete: RequestHandler<RequestParameters> = async (
     await dbCommandDelete({ id });
     response.sendStatus(204);
   } catch (error) {
-    logger.error({ err: error }, `Failed to delete command '${commandID}'`);
+    logger.error({ commandID, err: error }, 'Failed to delete command');
     response.sendStatus(500);
   }
   next();
