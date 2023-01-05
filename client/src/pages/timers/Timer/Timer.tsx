@@ -1,13 +1,16 @@
+import EditIcon from '@mui/icons-material/Edit';
+import Fab from '@mui/material/Fab';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import PageTitle from '~/src/components/PageTitle';
 import formatNumber from '~/src/shared/i18n/number';
-import { root, timers } from '~/src/urls';
+import { root, timerEdit, timers } from '~/src/urls';
 
 import { useTimer } from './context';
 
@@ -40,6 +43,19 @@ const Timer: React.FC = () => {
           ))}
         </List>
       )}
+
+      <Fab
+        color="primary"
+        component={Link}
+        sx={{
+          bottom: (theme) => theme.spacing(2),
+          position: 'fixed',
+          right: (theme) => theme.spacing(2),
+        }}
+        to={timerEdit(timer.id.toString())}
+      >
+        <EditIcon />
+      </Fab>
     </React.Fragment>
   );
 };

@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import PageTitle from '~/src/components/PageTitle';
 import { useSnackbar } from '~/src/providers/Snackbar';
 import queryClient from '~/src/shared/queryClient';
-import { command as commandURL, commands, root } from '~/src/urls';
+import { timer as timerURL, timers, root } from '~/src/urls';
 
-import { useCommand } from './context';
+import { useTimer } from './context';
 import Form from './Form';
 
 const Edit: React.FC = () => {
-  const { command } = useCommand();
+  const { timer } = useTimer();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -19,30 +19,30 @@ const Edit: React.FC = () => {
       <PageTitle
         breadcrumbs={[
           { title: 'Home', url: root() },
-          { title: 'Commands', url: commands() },
-          { title: command.name, url: commandURL(command.id.toString()) },
-          { title: 'Edit command' },
+          { title: 'Timers', url: timers() },
+          { title: timer.name, url: timerURL(timer.id.toString()) },
+          { title: 'Edit timer' },
         ]}
-        title={`Edit command: ${command.name}`}
+        title={`Edit timer: ${timer.name}`}
       />
       <Form
-        command={command}
+        timer={timer}
         onError={() => {
           enqueueSnackbar({
-            message: 'Failed to update command, please try again',
+            message: 'Failed to update timer, please try again',
           });
         }}
         onSuccess={() => {
-          enqueueSnackbar({ message: 'Command updated successfully' });
+          enqueueSnackbar({ message: 'Timer updated successfully' });
           queryClient.invalidateQueries({
             exact: true,
-            queryKey: ['commands'],
+            queryKey: ['timers'],
           });
           queryClient.invalidateQueries({
             exact: true,
-            queryKey: ['commands', command.id],
+            queryKey: ['timers', timer.id],
           });
-          navigate(commands());
+          navigate(timers());
         }}
       />
     </React.Fragment>
