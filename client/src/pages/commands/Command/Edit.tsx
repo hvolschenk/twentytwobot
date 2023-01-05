@@ -38,6 +38,10 @@ const Edit: React.FC = () => {
             exact: true,
             queryKey: ['commands'],
           });
+          queryClient.invalidateQueries({
+            exact: true,
+            queryKey: ['commands', command.id],
+          });
           navigate(commands());
         }}
       />
