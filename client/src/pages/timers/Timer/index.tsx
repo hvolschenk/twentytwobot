@@ -7,9 +7,17 @@ import { Route, Routes, useParams } from 'react-router-dom';
 
 import timerGetByID from '~/src/api/timerGetByID';
 import PageTitle from '~/src/components/PageTitle';
-import { root, TimerParams, timers } from '~/src/urls';
+import {
+  root,
+  timer,
+  timerEdit,
+  TimerParams,
+  timers,
+  urlRelative,
+} from '~/src/urls';
 
 import { Provider as TimerProvider } from './context';
+import Edit from './Edit';
 import TimerPage from './Timer';
 
 const Timer: React.FC = () => {
@@ -67,6 +75,7 @@ const Timer: React.FC = () => {
       <TimerProvider refetch={refetch} value={data.data}>
         <Routes>
           <Route element={<TimerPage />} index />
+          <Route element={<Edit />} path={urlRelative(timerEdit(), timer())} />
         </Routes>
       </TimerProvider>
     );

@@ -8,6 +8,7 @@ import React from 'react';
 import * as yup from 'yup';
 
 import timerCreate from '~/src/api/timerCreate';
+import timerUpdate from '~/src/api/timerUpdate';
 import { TimerWithMessages } from '~/src/types/TimerWithMessages';
 
 type FormValues = Omit<TimerWithMessages, 'id' | 'messages'>;
@@ -48,7 +49,7 @@ const TimerForm: React.FC<TimerFormProps> = ({ onError, onSuccess, timer }) => {
     onSubmit: async (submittedValues) => {
       try {
         if (timer?.id) {
-          // update
+          await timerUpdate({ id: timer.id, ...submittedValues });
         } else {
           await timerCreate(submittedValues);
         }
